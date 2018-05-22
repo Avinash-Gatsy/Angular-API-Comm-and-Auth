@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Request, RequestMethod, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 @Injectable()
 export class ApiService {
@@ -36,6 +39,17 @@ export class ApiService {
     // we can reutrn the observable which will be the result of calling the request on http class
     // use the map operator in order to extract the response body
     return this.http.request(request)
-    .map((res: Response) => res.json());
+    .map((res: Response) => res.json())
+    .catch((err: any) => {
+      // this.onRequestError(err);
+      const statusCode = err.status;
+      const Body = err.json();
+      const error = {
+        statusCode: statusCode,
+        error: Body.error
+      };
+      console.log(error);
+      return Observable.throw(error);
+    });
   }
 }
