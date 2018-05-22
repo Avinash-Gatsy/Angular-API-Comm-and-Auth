@@ -1,5 +1,9 @@
 # Angular + Node Contact Manager
 
+**Note**
+
+Make sure you make a copy of `.env.sample`, rename it to `.env`, and add in the necessary environemtn variables for both the JWT secret and the MongoDB connection string.
+
 ## Build tasks
 
 Different `npm` scripts for your workflow:
