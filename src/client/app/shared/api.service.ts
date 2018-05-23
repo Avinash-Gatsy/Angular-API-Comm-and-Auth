@@ -5,10 +5,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 @Injectable()
 export class ApiService {
   private baseUrl = environment.apiUrl;
-  constructor(private http: Http) { }
+  constructor(private http: Http, private auth: AuthService) { }
   get(url: string) {
     return this.request(url, RequestMethod.Get);
   }
@@ -25,7 +26,7 @@ export class ApiService {
   request(url: string, method: RequestMethod, body?: Object) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
+    headers.append('Authorization', `Bearer ${this.auth.getToken()}`);
     const requestOptions = new RequestOptions({
       url: `${this.baseUrl}/${url}`,
       method: method,
