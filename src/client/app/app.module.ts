@@ -11,13 +11,15 @@ import { ContactComponent } from './contact/contact.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
 import { ApiService } from './shared/api.service';
 import { AuthService } from './shared/auth.service';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     ContactListComponent,
     ContactComponent,
-    AddContactComponent
+    AddContactComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
