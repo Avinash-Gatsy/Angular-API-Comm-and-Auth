@@ -1,9 +1,23 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const checkJwt = require('express-jwt');
 
 function apiRouter(database){
     const router = express.Router();
+
+    // use the checkJwt() as middleware by passing secret in the object
+    // note we need to check for all routes apart from the /api/authenticate route as it will be used to generate the JWT
+    router.use(
+      checkJwt({secret: process.env.JWT_SECRET})
+      .unless({ path: '/api/authenticate'})
+    );
+
+    router.use((err, req, res, next) => {
+      if(err.name === 'UnauthorizedError'){
+        return res.status(401).send({error: err.message});
+      }
+    });
 
     router.get('/contacts', (req, res) => {
         const contactsCollection = database.collection('contacts');
